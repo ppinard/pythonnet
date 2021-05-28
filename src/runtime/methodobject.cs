@@ -78,7 +78,7 @@ namespace Python.Runtime
                 return doc;
             }
             MethodBase[] methods = binder.GetMethods();
-            string str = dochelper.GetMethodSignatures(methods);
+            string str = dochelper.GetDocString(methods);
             doc = Runtime.PyString_FromString(str);
             return doc;
         }

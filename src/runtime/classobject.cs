@@ -33,7 +33,7 @@ namespace Python.Runtime
         internal NewReference GetDocString()
         {
             MethodBase[] methods = binder.GetMethods();
-            string str = dochelper.GetMethodSignatures(methods);
+            string str = dochelper.GetDocString(methods);
             return NewReference.DangerousFromPointer(Runtime.PyString_FromString(str));
         }
 
