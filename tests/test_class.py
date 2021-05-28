@@ -33,7 +33,7 @@ def test_class_docstrings():
     """Test standard class docstring generation"""
     from Python.Test import ClassTest
 
-    value = 'Void .ctor()'
+    value = 'ClassTest()'
     assert ClassTest.__doc__ == value
 
 

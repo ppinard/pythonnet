@@ -2,6 +2,7 @@
 
 """Test CLR method support."""
 
+import os
 import System
 import pytest
 from Python.Test import MethodTest
@@ -144,12 +145,28 @@ def test_method_descriptor_abuse():
         desc.__set__(0, 0)
 
 
-def test_method_docstrings():
+@pytest.mark.parametrize(
+    "method,expected_doc",
+    [
+        (MethodTest.GetType, "GetType() -> Type"),
+        (MethodTest.TestOneArgAndTwoDefaultParam, "TestOneArgAndTwoDefaultParam(z: Int32, i: Int32 = 5, j: Int32 = 6) -> Int32"),
+        (MethodTest.TestVoidSingleOutParam, "TestVoidSingleOutParam() -> (Int32&)"),
+        (MethodTest.TestObjectOutParams, "TestObjectOutParams(o: Object) -> (Boolean, Object&)"),
+        (MethodTest.TestValueParamsArg, "TestValueParamsArg(args: Int32[]) -> Int32[]"),
+        (MethodTest.TestOverloadedObjectThree, f"TestOverloadedObjectThree(a: Int32, b: Object) -> String{os.linesep}TestOverloadedObjectThree(a: Object, b: Int32) -> String"),
+        (MethodTest.EncodingTestÅngström, "EncodingTestÅngström() -> Void"),
+    ],
+)
+def test_method_docstrings(method, expected_doc):
     """Test standard method docstring generation"""
-    method = MethodTest.GetType
-    value = 'System.Type GetType()'
-    assert method.__doc__ == value
+    assert method.__doc__ == expected_doc
 
+
+def test_method_docstrings_all():
+    ob = MethodTest()
+    for methodinfo in ob.GetType().GetMethods():
+        method = getattr(ob, methodinfo.Name)
+        assert len(method.__doc__) > 0
 
 # ======================================================================
 # Tests of specific argument and result conversion scenarios

@@ -14,9 +14,9 @@ def test_doc_with_ctor():
 def test_doc_with_ctor_no_doc():
     from Python.Test import DocWithCtorNoDocTest
 
-    assert DocWithCtorNoDocTest.__doc__ == 'Void .ctor(Boolean)'
-    assert DocWithCtorNoDocTest.TestMethod.__doc__ == 'Void TestMethod(Double, Int32)'
-    assert DocWithCtorNoDocTest.StaticTestMethod.__doc__ == 'Void StaticTestMethod(Double, Int32)'
+    assert DocWithCtorNoDocTest.__doc__ == 'DocWithCtorNoDocTest(x: Boolean)'
+    assert DocWithCtorNoDocTest.TestMethod.__doc__ == 'TestMethod(a: Double, b: Int32) -> Void'
+    assert DocWithCtorNoDocTest.StaticTestMethod.__doc__ == 'StaticTestMethod(a: Double, b: Int32) -> Void'
 
 
 def test_doc_without_ctor():

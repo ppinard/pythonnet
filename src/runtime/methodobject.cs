@@ -77,30 +77,11 @@ namespace Python.Runtime
             {
                 return doc;
             }
-            var str = "";
-            Type marker = typeof(DocStringAttribute);
             MethodBase[] methods = binder.GetMethods();
-            foreach (MethodBase method in methods)
-            {
-                if (str.Length > 0)
-                {
-                    str += Environment.NewLine;
-                }
-                var attrs = (Attribute[])method.GetCustomAttributes(marker, false);
-                if (attrs.Length == 0)
-                {
-                    str += method.ToString();
-                }
-                else
-                {
-                    var attr = (DocStringAttribute)attrs[0];
-                    str += attr.DocString;
-                }
-            }
+            string str = dochelper.GetMethodSignatures(methods);
             doc = Runtime.PyString_FromString(str);
             return doc;
         }
-
 
         /// <summary>
         /// This is a little tricky: a class can actually have a static method

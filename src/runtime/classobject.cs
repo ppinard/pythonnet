@@ -27,25 +27,15 @@ namespace Python.Runtime
             }
         }
 
-
         /// <summary>
         /// Helper to get docstring from reflected constructor info.
         /// </summary>
         internal NewReference GetDocString()
         {
             MethodBase[] methods = binder.GetMethods();
-            var str = "";
-            foreach (MethodBase t in methods)
-            {
-                if (str.Length > 0)
-                {
-                    str += Environment.NewLine;
-                }
-                str += t.ToString();
-            }
+            string str = dochelper.GetMethodSignatures(methods);
             return NewReference.DangerousFromPointer(Runtime.PyString_FromString(str));
         }
-
 
         /// <summary>
         /// Implements __new__ for reflected classes and value types.
@@ -147,7 +137,6 @@ namespace Python.Runtime
             object enumValue = Enum.ToObject(type, result);
             return CLRObject.GetInstHandle(enumValue, tp);
         }
-
 
         /// <summary>
         /// Implementation of [] semantics for reflected types. This exists
